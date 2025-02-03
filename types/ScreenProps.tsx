@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
 
-export interface ScreenProps {
+export type ScreenProps = {
   children: ReactNode;
-}
+};

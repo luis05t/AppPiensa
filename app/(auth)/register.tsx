@@ -1,155 +1,123 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView,
   Platform,
-  Keyboard,
 } from "react-native";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
-import { StatusBar } from "expo-status-bar";
+import AuthScreen from "@/components/AuthScreen";
+import { useKeyboardVisible } from "@/hooks/useKeyboardVisible";
+import { CardioTechIcon } from "@/assets/icons/icons";
+import PasswordInput from "@/components/Inputs/PasswordInput";
+import PrimarySendButton from "@/components/Buttons/PrimarySendButton";
+import MainTextInput from "@/components/Inputs/MainTextInput";
+import { Link, useRouter } from "expo-router";
+import { http } from "@/services/http";
+import { Token } from "./login";
+import { CustomAlert } from "@/components/Alert";
 
 export default function LoginScreen() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [keyboardVisible, setKeyboardVisible] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+  const { keyboardVisible } = useKeyboardVisible();
+  const router = useRouter();
 
-  useEffect(() => {
-    const keyboardDidShowListener = Keyboard.addListener(
-      Platform.OS === "android" ? "keyboardDidShow" : "keyboardWillShow",
-      () => setKeyboardVisible(true)
-    );
-    const keyboardDidHideListener = Keyboard.addListener(
-      Platform.OS === "android" ? "keyboardDidHide" : "keyboardWillHide",
-      () => setKeyboardVisible(false)
-    );
-
-    return () => {
-      keyboardDidShowListener.remove();
-      keyboardDidHideListener.remove();
-    };
-  }, []);
-
-  const handleLogin = () => {
+  const handleRegister = async () => {
     setIsLoading(true);
-    setTimeout(() => setIsLoading(false), 2000);
+    try {
+      const { accessToken } = await http.post<Token>("/auth/register", {
+        name,
+        email,
+        password,
+      });
+      if (accessToken) {
+        router.navigate("/(auth)/login");
+        setShowAlert(true);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+      setShowAlert(false);
+    }
   };
 
   return (
-    <LinearGradient
-      colors={["#F0FDF4", "#97e7cf", "#F0FDF4"]}
-      className="flex-1"
-    >
-      <StatusBar style="dark" />
-
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}
-        className="flex-1"
+    <AuthScreen>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          paddingBottom: keyboardVisible ? 100 : 20,
+        }}
+        keyboardShouldPersistTaps="handled"
+        scrollEnabled={keyboardVisible}
       >
-        <ScrollView
-          contentContainerStyle={{
-            flexGrow: 1,
-            paddingBottom: keyboardVisible ? 100 : 20,
-          }}
-          keyboardShouldPersistTaps="handled"
-          scrollEnabled={keyboardVisible}
-        >
-          <View className="flex-1 justify-center p-6">
-            {(!keyboardVisible || Platform.OS === "ios") && (
-              <View className="items-center mb-12">
-                <MaterialIcons
-                  name="health-and-safety"
-                  size={56}
-                  color="#16A34A"
-                  className="mb-6"
-                />
-                <Text className="text-4xl font-bold text-gray-900 mb-2">
-                  HealthCare+
-                </Text>
-                <Text className="text-lg text-gray-600">
-                  Your Wellness Journey Starts Here
-                </Text>
-              </View>
-            )}
-
-            {/* Formulario */}
-            <View className="space-y-6">
-              {/* Email Input */}
-              <View className="bg-white rounded-lg border border-green-100">
-                <TextInput
-                  placeholder="Email address"
-                  placeholderTextColor="#157759"
-                  value={email}
-                  onChangeText={setEmail}
-                  keyboardType="email-address"
-                  autoCapitalize="none"
-                  className="px-6 py-4 text-gray-900 text-lg"
-                />
-              </View>
-
-              {/* Password Input */}
-              <View className="bg-white rounded-lg border border-green-100">
-                <View className="flex-row items-center px-6">
-                  <TextInput
-                    placeholder="Password"
-                    placeholderTextColor="#157759"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry={!showPassword}
-                    className="flex-1 py-4 text-gray-900 text-lg"
-                  />
-                  <TouchableOpacity
-                    onPress={() => setShowPassword(!showPassword)}
-                    className="ml-2"
-                  >
-                    <MaterialCommunityIcons
-                      name={showPassword ? "eye-off" : "eye"}
-                      size={24}
-                      color="#16A34A"
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View>
-
-              <TouchableOpacity
-                onPress={handleLogin}
-                disabled={isLoading}
-                className="bg-green-600 rounded-lg p-4 items-center justify-center h-14 active:bg-green-700"
-              >
-                {isLoading ? (
-                  <Text className="text-white font-semibold text-lg">
-                    Verifying...
-                  </Text>
-                ) : (
-                  <Text className="text-white font-semibold text-lg">
-                    Sign In
-                  </Text>
-                )}
-              </TouchableOpacity>
+        {showAlert && (
+          <CustomAlert
+            visible={showAlert}
+            title="¡Datos Guardados!"
+            message="Ahora puedes iniciar sesión"
+            onClose={() => setShowAlert(false)}
+          />
+        )}
+        <View className="flex-1 justify-center p-6">
+          {(!keyboardVisible || Platform.OS === "ios") && (
+            <View className="items-center mb-12">
+              <CardioTechIcon size="m" />
+              <Text className="text-4xl font-bold text-gray-900 mb-2">
+                Cardio Tech+
+              </Text>
+              <Text className="text-lg text-gray-600">
+                Tu Viaje De Bienestar Comienza Aquí
+              </Text>
             </View>
+          )}
 
-            {!keyboardVisible && (
-              <View className="mt-10 left-0 right-0 items-center">
-                <View className="flex-row">
-                  <Text className="text-gray-600">New to HealthCare+? </Text>
+          <View>
+            <MainTextInput
+              setTextValue={setName}
+              textValue={name}
+              placeHolder="Nombre"
+            />
+            <MainTextInput
+              textValue={email}
+              setTextValue={setEmail}
+              placeHolder="Correo Electrónico"
+            />
+            <PasswordInput
+              password={password}
+              setPassword={setPassword}
+              setShowPassword={setShowPassword}
+              showPassword={showPassword}
+            />
+            <PrimarySendButton
+              handleFormSubmit={handleRegister}
+              isLoading={isLoading}
+              text="Registrarse"
+            />
+          </View>
+
+          {!keyboardVisible && (
+            <View className="mt-10 left-0 right-0 items-center">
+              <View className="flex-row">
+                <Text className="text-gray-600">Ya tienes una cuenta? </Text>
+                <Link href={"/(auth)/login"} asChild replace>
                   <TouchableOpacity>
                     <Text className="text-green-600 font-semibold">
-                      Join Now
+                      Iniciar Sesión
                     </Text>
                   </TouchableOpacity>
-                </View>
+                </Link>
               </View>
-            )}
-          </View>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </LinearGradient>
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </AuthScreen>
   );
 }
