@@ -1,6 +1,5 @@
 import { ScreenProps } from "@/types/ScreenProps";
 import { LinearGradient } from "expo-linear-gradient";
-import { StatusBar } from "expo-status-bar";
 import { KeyboardAvoidingView, Platform } from "react-native";
 
 export default function AuthScreen({ children }: ScreenProps) {
@@ -9,7 +8,6 @@ export default function AuthScreen({ children }: ScreenProps) {
       colors={["#F0FDF4", "#97e7cf", "#F0FDF4"]}
       className="flex-1"
     >
-      <StatusBar style="dark" />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0}

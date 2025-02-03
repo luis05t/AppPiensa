@@ -3,30 +3,46 @@ import {
   HistoryIcon,
   InformationIcon,
 } from "@/assets/icons/icons";
-import { Tabs } from "expo-router";
-import { View, Text, TouchableOpacity } from "react-native";
+import { Link, Tabs } from "expo-router";
+import React from "react";
+import { View, Text, Platform, TouchableOpacity } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { MaterialIcons } from "@expo/vector-icons";
 
-export default function App() {
+export default function TabsLayout() {
   return (
-    <View className="flex-1">
+    <>
       <Tabs
         screenOptions={{
           animation: "shift",
+          tabBarStyle: { backgroundColor: "#F0FDF4" },
           tabBarActiveTintColor: "#7CB342",
           headerStyle: {
             backgroundColor: "#b1ffe0",
           },
           headerTitle: "",
+          headerRight: () => (
+            <Link href={"/(admin)/admin"} asChild>
+              <TouchableOpacity className="mr-4">
+                <MaterialIcons
+                  name="admin-panel-settings"
+                  size={24}
+                  color="#16A34A"
+                />
+              </TouchableOpacity>
+            </Link>
+          ),
           headerLeft: () => (
-            <TouchableOpacity className="flex-1 flex-row justify-end items-center mr-11 shadow-neutral-300">
+            <View
+              className={
+                Platform.OS === "ios"
+                  ? "flex-1 flex-row justify-end items-center mr-11"
+                  : "flex-row space-x-2 mx-4 items-center"
+              }
+            >
               <CardioTechIcon size="xs" />
               <Text className="font-bold text-green-600">Cardio Tech+</Text>
-            </TouchableOpacity>
-          ),
-          headerRight: () => (
-            <TouchableOpacity className="flex-1 flex-row justify-end items-center mr-6 shadow-neutral-300">
-              <InformationIcon color={"#43a047"} />
-            </TouchableOpacity>
+            </View>
           ),
         }}
       >
@@ -45,6 +61,7 @@ export default function App() {
           }}
         />
       </Tabs>
-    </View>
+      <StatusBar style="dark" />
+    </>
   );
 }
