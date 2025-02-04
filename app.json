@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.davdrewdev.AppPiensa",
+      "package": "com.luist05.AppPiensa",
       "permissions": []
     },
     "web": {
@@ -53,14 +53,7 @@
     "extra": {
       "router": {
         "origin": false
-      },
-      "eas": {
-        "projectId": "471ecfb7-54bd-43da-98b9-0851fedbbec6"
       }
-    },
-    "owner": "davdrewdev",
-    "updates": {
-      "url": "https://u.expo.dev/471ecfb7-54bd-43da-98b9-0851fedbbec6"
     }
   }
 }
