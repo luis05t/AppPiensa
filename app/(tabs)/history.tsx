@@ -12,20 +12,6 @@ const mockDiagnoses: Diagnosis[] = [
     date: new Date(2025, 0, 28),
   },
   {
-    id: "2",
-    patientName: "María García",
-    heartRate: 92,
-    temperature: 37.8,
-    date: new Date(2025, 1, 1),
-  },
-  {
-    id: "3",
-    patientName: "David Correa",
-    heartRate: 64,
-    temperature: 36.4,
-    date: new Date(2025, 0, 9),
-  },
-  {
     id: "4",
     patientName: "Luis Tinoco",
     heartRate: 71,
@@ -66,13 +52,6 @@ const mockDiagnoses: Diagnosis[] = [
     heartRate: 45,
     temperature: 36.0,
     date: new Date(2025, 2, 10),
-  },
-  {
-    id: "10",
-    patientName: "Lucía Morales",
-    heartRate: 95,
-    temperature: 39.0,
-    date: new Date(2025, 2, 15),
   },
   {
     id: "11",
