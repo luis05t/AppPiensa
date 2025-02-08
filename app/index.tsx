@@ -1,11 +1,30 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import SecondaryButton from "@/components/Buttons/SecondaryButton";
 import PrimaryButton from "@/components/Buttons/PrimaryButton";
 import MainScreen from "../components/MainScreen";
 import { CardioTechIcon } from "@/assets/icons/icons";
-import { Link } from "expo-router";
+import { useEffect } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "expo-router";
 
 export default function WelcomeScreen() {
+  const { loadUser, user, authLoading } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      await loadUser();
+    };
+
+    checkAuth();
+  }, []);
+
+  useEffect(() => {
+    if (user && !authLoading) {
+      router.replace("/(tabs)/history");
+    }
+  }, [user, authLoading]);
+
   return (
     <MainScreen>
       <View className="justify-center items-center w-full top-32">
