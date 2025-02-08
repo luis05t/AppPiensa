@@ -17,8 +17,9 @@ export default function PasswordInput({
         value={password}
         onChangeText={setPassword}
         secureTextEntry={!showPassword}
-        className="flex-1 text-gray-900 text-lg px-6 py-0"
+        className="flex-1 text-gray-900 text-lg px-6 py-2"
       />
+
       <TouchableOpacity
         onPress={() => setShowPassword(!showPassword)}
         className="mr-6"
