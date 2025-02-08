@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import EmailInput from "@/components/Inputs/MainTextInput";
 import PasswordInput from "@/components/Inputs/PasswordInput";
 import PrimarySendButton from "@/components/Buttons/PrimarySendButton";
 import { http } from "@/services/http";
+import { useAuth } from "@/hooks/useAuth";
 
 export interface Token {
   userId: string;
@@ -36,7 +37,7 @@ export default function LoginScreen() {
         password,
       });
       if (accessToken) {
-        router.navigate("/(tabs)/history");
+        router.replace("/(tabs)/history");
       }
     } catch (err) {
       console.log(err);
