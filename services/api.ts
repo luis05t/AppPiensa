@@ -1,5 +1,6 @@
 import axios from "axios";
 import { secureStorage } from "./SecureStore/secureStoreService";
+import { useRouter } from "expo-router";
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -13,7 +14,6 @@ const api = axios.create({
 api.interceptors.request.use(
   async (config) => {
     const accessToken = await secureStorage.getToken();
-
     if (accessToken) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
@@ -35,6 +35,7 @@ api.interceptors.response.use(
   async (error) => {
     if (error.response?.status === 401) {
       await secureStorage.removeToken();
+      useRouter().navigate("/(auth)/login");
     }
     return Promise.reject(error);
   }
