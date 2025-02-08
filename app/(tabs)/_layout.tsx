@@ -3,13 +3,16 @@ import {
   HistoryIcon,
   InformationIcon,
 } from "@/assets/icons/icons";
-import { Link, Tabs } from "expo-router";
+import { Link, Tabs, useRouter } from "expo-router";
 import React from "react";
 import { View, Text, Platform, TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function TabsLayout() {
+  const { user, logout, loadUser, authLoading } = useAuth();
+  const router = useRouter();
   return (
     <>
       <Tabs
@@ -21,17 +24,39 @@ export default function TabsLayout() {
             backgroundColor: "#b1ffe0",
           },
           headerTitle: "",
-          headerRight: () => (
-            <Link href={"/(admin)/admin"} asChild>
-              <TouchableOpacity className="mr-4">
-                <MaterialIcons
-                  name="admin-panel-settings"
-                  size={24}
-                  color="#16A34A"
-                />
+          headerRight: () =>
+            user?.role === "ADMIN" ? (
+              <View className="justify-center flex-row items-center">
+                <Link href={"/(admin)/admin"} asChild>
+                  <TouchableOpacity className="mr-4">
+                    <MaterialIcons
+                      name="admin-panel-settings"
+                      size={24}
+                      color="#16A34A"
+                    />
+                  </TouchableOpacity>
+                </Link>
+                <TouchableOpacity
+                  className="mr-4"
+                  onPress={async () => {
+                    await logout();
+                    router.replace("/");
+                  }}
+                >
+                  <MaterialIcons name="logout" size={24} color="#16A34A" />
+                </TouchableOpacity>
+              </View>
+            ) : (
+              <TouchableOpacity
+                className="mr-4"
+                onPress={async () => {
+                  await logout();
+                  router.replace("/");
+                }}
+              >
+                <MaterialIcons name="logout" size={24} color="#16A34A" />
               </TouchableOpacity>
-            </Link>
-          ),
+            ),
           headerLeft: () => (
             <View
               className={
