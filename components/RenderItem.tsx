@@ -1,8 +1,8 @@
 import { Diagnosis } from "@/interfaces/ListValues";
-import { TouchableOpacity, View, Text } from "react-native";
+import { View, Text } from "react-native";
 
 export const RenderItem = ({ item }: { item: Diagnosis }) => (
-  <TouchableOpacity className="bg-white rounded-xl p-4 mt-3 shadow-sm shadow-neutral-300">
+  <View className="bg-white rounded-xl p-4 mt-3 shadow-sm shadow-neutral-300">
     <View className="flex-row justify-between mb-3">
       <Text className="text-base font-semibold text-neutral-800">
         {item.patientName}
@@ -27,5 +27,5 @@ export const RenderItem = ({ item }: { item: Diagnosis }) => (
         </Text>
       </View>
     </View>
-  </TouchableOpacity>
+  </View>
 );
