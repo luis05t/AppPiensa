@@ -5,7 +5,7 @@ import {
 } from "@/assets/icons/icons";
 import { Link, Tabs, useRouter } from "expo-router";
 import React from "react";
-import { View, Text, Platform, TouchableOpacity } from "react-native";
+import { View, Text, Platform, TouchableOpacity, Alert } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
@@ -39,8 +39,19 @@ export default function TabsLayout() {
                 <TouchableOpacity
                   className="mr-4"
                   onPress={async () => {
-                    await logout();
-                    router.replace("/");
+                    Alert.alert("Cerrar sesión", "¿Estás seguro?", [
+                      {
+                        text: "Cancelar",
+                        style: "cancel",
+                      },
+                      {
+                        text: "Cerrar sesión",
+                        onPress: async () => {
+                          await logout();
+                          router.replace("/");
+                        },
+                      },
+                    ]);
                   }}
                 >
                   <MaterialIcons name="logout" size={24} color="#16A34A" />
