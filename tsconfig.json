@@ -3,15 +3,23 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": [
-        "./*"
-      ]
+      "@/*": ["./*"]
     }
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
-    "expo-env.d.ts"
+    "expo-env.d.ts",
+    "services/mqtt/errorHandler.ts",
+    "services/mqtt/mqttService.js",
+    "hooks/useMqttConnection.tsx",
+    "hooks/useAppStateReconnect.jsx",
+    "context/MqttProvider.tsx",
+    "app/(tabs)/mqtt.jsx",
+    "context/MqttProvider.tsx",
+    "hooks/useAppStateReconnect.jsx",
+    "hooks/useMqttConnection.tsx",
+    "services/mqtt/mqttService.js"
   ]
 }

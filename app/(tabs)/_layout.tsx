@@ -2,6 +2,7 @@ import {
   CardioTechIcon,
   HistoryIcon,
   InformationIcon,
+  MqttIcon,
 } from "@/assets/icons/icons";
 import { Link, Tabs, useRouter } from "expo-router";
 import React from "react";
@@ -94,6 +95,13 @@ export default function TabsLayout() {
           options={{
             tabBarIcon: ({ color }) => <InformationIcon color={color} />,
             title: "Información",
+          }}
+        />
+        <Tabs.Screen
+          name="mqtt"
+          options={{
+            tabBarIcon: ({ color }) => <MqttIcon color={color} />,
+            title: "Mqtt",
           }}
         />
       </Tabs>

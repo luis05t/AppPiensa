@@ -51,3 +51,14 @@ export const InformationIcon = (props: any) => {
     <MaterialIcons name="info-outline" size={24} color="black" {...props} />
   );
 };
+
+export const MqttIcon = (props: any) => {
+  return (
+    <MaterialCommunityIcons
+      name="lan-connect"
+      size={24}
+      color="black"
+      {...props}
+    />
+  );
+};
