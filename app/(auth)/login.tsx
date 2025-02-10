@@ -28,6 +28,7 @@ export default function LoginScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const { keyboardVisible } = useKeyboardVisible();
   const router = useRouter();
+  const { loadUser } = useAuth();
 
   const handleLogin = async () => {
     setIsLoading(true);
@@ -37,6 +38,7 @@ export default function LoginScreen() {
         password,
       });
       if (accessToken) {
+        await loadUser();
         router.replace("/(tabs)/history");
       }
     } catch (err) {
