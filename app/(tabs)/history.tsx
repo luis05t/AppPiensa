@@ -70,6 +70,7 @@ const mockDiagnoses: Diagnosis[] = [
 ];
 
 export default function HistoryScreen() {
+  console.log(mockDiagnoses[0].date);
   return (
     <TabsScreen>
       <FlatList

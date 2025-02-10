@@ -11,7 +11,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { useAuth } from "@/hooks/useAuth";
 
 export default function TabsLayout() {
-  const { user, logout, loadUser, authLoading } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
   return (
     <>
