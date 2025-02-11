@@ -16,6 +16,7 @@ export default function TabsLayout() {
   const router = useRouter();
   return (
     <>
+      <StatusBar style="dark" />
       <Tabs
         screenOptions={{
           animation: "shift",
@@ -62,8 +63,19 @@ export default function TabsLayout() {
               <TouchableOpacity
                 className="mr-4"
                 onPress={async () => {
-                  await logout();
-                  router.replace("/");
+                  Alert.alert("Cerrar sesión", "¿Estás seguro?", [
+                    {
+                      text: "Cancelar",
+                      style: "cancel",
+                    },
+                    {
+                      text: "Cerrar sesión",
+                      onPress: async () => {
+                        await logout();
+                        router.replace("/");
+                      },
+                    },
+                  ]);
                 }}
               >
                 <MaterialIcons name="logout" size={24} color="#16A34A" />
@@ -90,6 +102,25 @@ export default function TabsLayout() {
             title: "Historial",
           }}
         />
+        {user?.role === "ADMIN" ? (
+          <Tabs.Screen
+            name="mqtt"
+            options={{
+              tabBarLabel: "Mqtt",
+              tabBarIcon: ({ color }) => <MqttIcon color={color} />,
+            }}
+          />
+        ) : (
+          <Tabs.Screen
+            name="mqtt"
+            options={{
+              tabBarLabel: () => null,
+              title: "Mqtt",
+              tabBarButton: () => null,
+              tabBarStyle: { display: "none" },
+            }}
+          />
+        )}
         <Tabs.Screen
           name="information"
           options={{
@@ -97,15 +128,7 @@ export default function TabsLayout() {
             title: "Información",
           }}
         />
-        <Tabs.Screen
-          name="mqtt"
-          options={{
-            tabBarIcon: ({ color }) => <MqttIcon color={color} />,
-            title: "Mqtt",
-          }}
-        />
       </Tabs>
-      <StatusBar style="dark" />
     </>
   );
 }

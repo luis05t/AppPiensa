@@ -2,81 +2,52 @@ import { FlatList } from "react-native";
 import TabsScreen from "@/components/TabsScreen";
 import { RenderItem } from "@/components/RenderItem";
 import { Diagnosis } from "@/interfaces/ListValues";
+import { useEffect, useState } from "react";
+import { http } from "@/services/http";
+import { useAuth } from "@/hooks/useAuth";
+import { Text } from "react-native";
 
-const mockDiagnoses: Diagnosis[] = [
-  {
-    id: "1",
-    patientName: "Juan Pérez",
-    heartRate: 170,
-    temperature: 36.5,
-    date: new Date(2025, 0, 28),
-  },
-  {
-    id: "4",
-    patientName: "Luis Tinoco",
-    heartRate: 71,
-    temperature: 35.1,
-    date: new Date(2025, 0, 14),
-  },
-  {
-    id: "5",
-    patientName: "Ana Rodríguez",
-    heartRate: 120,
-    temperature: 38.2,
-    date: new Date(2025, 1, 14),
-  },
-  {
-    id: "6",
-    patientName: "Carlos Gómez",
-    heartRate: 58,
-    temperature: 36.7,
-    date: new Date(2025, 1, 18),
-  },
-  {
-    id: "7",
-    patientName: "Marta Hernández",
-    heartRate: 83,
-    temperature: 34.9,
-    date: new Date(2025, 2, 2),
-  },
-  {
-    id: "8",
-    patientName: "Pedro Vargas",
-    heartRate: 130,
-    temperature: 37.1,
-    date: new Date(2025, 2, 5),
-  },
-  {
-    id: "9",
-    patientName: "Sofía Castro",
-    heartRate: 45,
-    temperature: 36.0,
-    date: new Date(2025, 2, 10),
-  },
-  {
-    id: "11",
-    patientName: "Diego Rojas",
-    heartRate: 110,
-    temperature: 35.5,
-    date: new Date(2025, 2, 20),
-  },
-  {
-    id: "12",
-    patientName: "Valeria Méndez",
-    heartRate: 72,
-    temperature: 36.8,
-    date: new Date(2025, 2, 25),
-  },
-];
+const HistoryScreen = () => {
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([]);
+  const [refresh, setRefresh] = useState<boolean>(false);
+  const { user } = useAuth();
 
-export default function HistoryScreen() {
+  const fetchDiagnoses = async () => {
+    try {
+      const url =
+        user?.role === "ADMIN"
+          ? "/vital-signs"
+          : `/vital-signs/${user?.userId}`;
+      const data = await http.get<Diagnosis[]>(url);
+      setDiagnoses(data);
+    } catch (error) {
+      console.error("Failed to fetch diagnoses", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDiagnoses();
+  }, []);
+
   return (
     <TabsScreen>
       <FlatList
-        data={mockDiagnoses}
+        data={diagnoses}
         renderItem={RenderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.vitalSignId}
+        ListEmptyComponent={
+          <Text className="text-center text-gray-500 mt-4">
+            No diagnoses found
+          </Text>
+        }
+        refreshing={refresh}
+        onRefresh={() => {
+          setRefresh(true);
+          fetchDiagnoses().finally(() => setRefresh(false));
+        }}
       />
     </TabsScreen>
   );
-}
+};
+
+export default HistoryScreen;

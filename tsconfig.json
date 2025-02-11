@@ -13,13 +13,15 @@
     "expo-env.d.ts",
     "services/mqtt/errorHandler.ts",
     "services/mqtt/mqttService.js",
-    "hooks/useMqttConnection.tsx",
+    "hooks/useMqttConnection.jsx",
     "hooks/useAppStateReconnect.jsx",
-    "context/MqttProvider.tsx",
-    "app/(tabs)/mqtt.jsx",
-    "context/MqttProvider.tsx",
+    "context/MqttProvider.jsx",
+    "app/(tabs)/mqtt.tsx",
+    "context/MqttProvider.jsx",
     "hooks/useAppStateReconnect.jsx",
-    "hooks/useMqttConnection.tsx",
-    "services/mqtt/mqttService.js"
+    "hooks/useMqttConnection.jsx",
+    "services/mqtt/mqttService.js",
+    "app/(admin)/admin.tsx",
+    "app/(admin)/admin.tsx"
   ]
 }

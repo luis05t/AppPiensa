@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 import { jwtDecode } from "jwt-decode";
 import { secureStorage } from "./SecureStore/secureStoreService";
 import {
@@ -27,7 +27,6 @@ export const useAuthStore = create<AuthState>()(
           );
 
           const { accessToken, ...userData } = response;
-
           await secureStorage.setToken(accessToken);
 
           set({

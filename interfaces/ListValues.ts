@@ -1,7 +1,9 @@
 export interface Diagnosis {
-  id: string;
+  vitalSignId: string;
+  userId: string;
   patientName: string;
-  heartRate: number;
-  temperature: number;
-  date: Date;
+  BPM: number;
+  temp: number;
+  timestamp: Date;
+  user: { name: string };
 }
