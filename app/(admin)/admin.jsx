@@ -129,7 +129,7 @@ const PatientMonitor = () => {
       <View className="gap-y-4">
         <Text className="text-gray-800 text-xl font-semibold font-inter">Pacientes</Text>
         <FlatList
-          data={filteredPatients.filter(patient => patient.roleId === 'ccdd0a06-33e9-45de-b28f-2cf94dc561ed')}
+          data={filteredPatients.filter(patient => patient.roleId === '3b207b12-d54f-43a1-aeaf-199f0ea6dfdd')}
           horizontal
           showsHorizontalScrollIndicator={false}
           keyExtractor={(item) => item.userId}
